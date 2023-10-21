@@ -2,7 +2,10 @@
 title: "Introduction to Linear Regression using Machine Learning"
 author: "Kamal Chhetri"
 date: "2023-10-18"
-categories: [news]
+categories:
+  - News
+  - Code
+  - Analysis
 ---
 
 # Linear Regression:
@@ -23,7 +26,7 @@ In a machine learning context, **`y`** is often called the target or label, and 
 
 Linear regression is easy to understand and explain, making it a popular tool for business analyses. It works best when predictors are independent of each other, and when they have a linear relationship to the dependent variable.
 
-![](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F62413fa0-3d80-411c-af93-ebd0f096a26a_1042x644.png)
+![](https://miro.medium.com/v2/1*GBjasHYN0y3cKO-edveV4w.png)
 
 ## Limitations of Linear Regression
 
