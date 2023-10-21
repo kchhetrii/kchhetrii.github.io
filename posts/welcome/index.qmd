@@ -1,12 +1,36 @@
 ---
-title: "Welcome To My Blog"
-author: "Tristan O'Malley"
+title: "Introduction to Linear Regression using Machine Learning"
+author: "Kamal Chhetri"
 date: "2023-10-18"
 categories: [news]
 ---
 
-This is the first post in a Quarto blog. Welcome!
+# Linear Regression:
 
-![](thumbnail.jpg)
+Linear Regression is one of the most fundamental and widely known Machine Learning Algorithms which people start with. Building blocks of a Linear Regression Model are:
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+-   **Dependent Variable**: The main factor in Linear Regression. It is the variable that we want to predict or forecast.
+
+-   **Independent Variables**: These variables are the factors that we hypothesize have an impact on our dependent variable.
+
+## What is Linear Regression?
+
+Linear Regression is based on the equation of a straight line, **`y = mx + c`**, where **`y`** is the dependent variable we want to predict, **`x`** is the independent variable we use to make the prediction, **`m`** is the slope of the line, and **`c`** is the y-intercept.
+
+In a machine learning context, **`y`** is often called the target or label, and **`x`** is called a feature. The terms **`m`** and **`c`** are parameters of the model that are learned from the training data.
+
+## Why Use Linear Regression?
+
+Linear regression is easy to understand and explain, making it a popular tool for business analyses. It works best when predictors are independent of each other, and when they have a linear relationship to the dependent variable.
+
+![](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F62413fa0-3d80-411c-af93-ebd0f096a26a_1042x644.png)
+
+## Limitations of Linear Regression
+
+While linear regression is straightforward and easy to understand, it does have some limitations:
+
+-   It assumes a linear relationship between input variables and output. If this relationship isn't linear, linear regression may not provide a good fit to the data.
+
+-   It's sensitive to outliers. A few extreme data points can significantly skew your regression line.
+
+-   It assumes that all variables are independent of each other. If variables are correlated (known as multicollinearity), it can affect performance.

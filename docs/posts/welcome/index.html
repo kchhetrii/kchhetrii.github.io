@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Tristan O’Malley">
+<meta name="author" content="Kamal Chhetri">
 <meta name="dcterms.date" content="2023-10-18">
 
-<title>Machine learning blog - Welcome To My Blog</title>
+<title>Machine learning blog - Introduction to Linear Regression using Machine Learning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome To My Blog</h1>
+      <h1 class="title">Introduction to Linear Regression using Machine Learning</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">news</div>
               </div>
@@ -121,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Tristan O’Malley </p>
+               <p>Kamal Chhetri </p>
             </div>
     </div>
       
@@ -146,11 +146,35 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="thumbnail.jpg" class="img-fluid"></p>
-<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+<section id="linear-regression" class="level1">
+<h1>Linear Regression:</h1>
+<p>Linear Regression is one of the most fundamental and widely known Machine Learning Algorithms which people start with. Building blocks of a Linear Regression Model are:</p>
+<ul>
+<li><p><strong>Dependent Variable</strong>: The main factor in Linear Regression. It is the variable that we want to predict or forecast.</p></li>
+<li><p><strong>Independent Variables</strong>: These variables are the factors that we hypothesize have an impact on our dependent variable.</p></li>
+</ul>
+<section id="what-is-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-linear-regression">What is Linear Regression?</h2>
+<p>Linear Regression is based on the equation of a straight line, <strong><code>y = mx + c</code></strong>, where <strong><code>y</code></strong> is the dependent variable we want to predict, <strong><code>x</code></strong> is the independent variable we use to make the prediction, <strong><code>m</code></strong> is the slope of the line, and <strong><code>c</code></strong> is the y-intercept.</p>
+<p>In a machine learning context, <strong><code>y</code></strong> is often called the target or label, and <strong><code>x</code></strong> is called a feature. The terms <strong><code>m</code></strong> and <strong><code>c</code></strong> are parameters of the model that are learned from the training data.</p>
+</section>
+<section id="why-use-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-linear-regression">Why Use Linear Regression?</h2>
+<p>Linear regression is easy to understand and explain, making it a popular tool for business analyses. It works best when predictors are independent of each other, and when they have a linear relationship to the dependent variable.</p>
+<p><img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F62413fa0-3d80-411c-af93-ebd0f096a26a_1042x644.png" class="img-fluid"></p>
+</section>
+<section id="limitations-of-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-linear-regression">Limitations of Linear Regression</h2>
+<p>While linear regression is straightforward and easy to understand, it does have some limitations:</p>
+<ul>
+<li><p>It assumes a linear relationship between input variables and output. If this relationship isn’t linear, linear regression may not provide a good fit to the data.</p></li>
+<li><p>It’s sensitive to outliers. A few extreme data points can significantly skew your regression line.</p></li>
+<li><p>It assumes that all variables are independent of each other. If variables are correlated (known as multicollinearity), it can affect performance.</p></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
