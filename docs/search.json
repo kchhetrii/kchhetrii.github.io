@@ -11,7 +11,7 @@
     "href": "posts/welcome/index.html",
     "title": "Introduction to Linear Regression using Machine Learning",
     "section": "",
-    "text": "Linear Regression is one of the most fundamental and widely known Machine Learning Algorithms which people start with. Building blocks of a Linear Regression Model are:\n\nDependent Variable: The main factor in Linear Regression. It is the variable that we want to predict or forecast.\nIndependent Variables: These variables are the factors that we hypothesize have an impact on our dependent variable.\n\n\n\nLinear Regression is based on the equation of a straight line, y = mx + c, where y is the dependent variable we want to predict, x is the independent variable we use to make the prediction, m is the slope of the line, and c is the y-intercept.\nIn a machine learning context, y is often called the target or label, and x is called a feature. The terms m and c are parameters of the model that are learned from the training data.\n\n\n\nLinear regression is easy to understand and explain, making it a popular tool for business analyses. It works best when predictors are independent of each other, and when they have a linear relationship to the dependent variable.\n\n\n\n\nWhile linear regression is straightforward and easy to understand, it does have some limitations:\n\nIt assumes a linear relationship between input variables and output. If this relationship isn’t linear, linear regression may not provide a good fit to the data.\nIt’s sensitive to outliers. A few extreme data points can significantly skew your regression line.\nIt assumes that all variables are independent of each other. If variables are correlated (known as multicollinearity), it can affect performance."
+    "text": "K-Nearest Neighbors (KNN) is a simple yet powerful classification algorithm. It classifies a data point based on how its neighbors are classified. In this blog post, we will use the Iris dataset to understand how KNN works using R.\n\n\n\nKNN is a type of instance-based learning, or lazy learning, where the function is only approximated locally and all computation is deferred until function evaluation. It’s both a classification and regression method.\n\n\n\nThe Iris dataset is a multivariate dataset introduced by the British statistician and biologist Ronald Fisher in his 1936 paper. The dataset consists of 50 samples from each of three species of Iris flowers (Iris setosa, Iris virginica, and Iris versicolor). Four features were measured from each sample: the lengths and the widths of the sepals and petals.\nLoad necessary libraries\n\nlibrary(class)\nlibrary(ggplot2)\n\nSet the random seed for reproducibility\n\nset.seed(0)\n\nSplit data into training and test sets\n\nnsample = nrow(iris)\ntrain.ix = sample(1:nsample, round(nsample / 2))\ntest.ix = setdiff(1:nsample, train.ix)\ntrain.X = iris[train.ix, 3:4]  # Only use Petal.Length, Petal.Width\ntrain.Y = iris[train.ix, 5]    # Factor data type\ntest.X = iris[test.ix, 3:4]\ntest.Y = iris[test.ix, 5]\n\nPerform classification for the test set\n\nk_value = 3\npred.Y = knn(train.X, test.X, train.Y, k = k_value)\nmcr = mean(test.Y != pred.Y)\n\nCreate a data frame to store test data and predicted labels\n\nresults_df &lt;- data.frame(\n  Petal.Length = test.X[, 1],\n  Petal.Width = test.X[, 2],\n  Actual_Class = test.Y,\n  Predicted_Class = pred.Y\n)\n\nPlot the test data points color-coded by their predicted class\n\nggplot(results_df, aes(x = Petal.Length, y = Petal.Width, color = factor(Actual_Class), shape = factor(Predicted_Class))) +\n  geom_point(size = 3) +\n  labs(x = \"Petal Length\", y = \"Petal Width\", title = paste(\"KNN Classification (k =\", k_value, \")\")) +\n  scale_color_discrete(name = \"Actual Class\") +\n  scale_shape_discrete(name = \"Predicted Class\") +\n  theme_minimal()\n\n\n\n\nPrint the confusion matrix\n\nconfusion_matrix &lt;- table(test.Y, pred.Y)\nprint(\"Confusion Matrix:\")\n\n[1] \"Confusion Matrix:\"\n\nprint(confusion_matrix)\n\n            pred.Y\ntest.Y       setosa versicolor virginica\n  setosa         21          0         0\n  versicolor      0         30         1\n  virginica       0          3        20\n\n\nCalculate the misclassification rate\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\"\n\n\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\""
   },
   {
     "objectID": "posts/welcome/index.html#what-is-linear-regression",
@@ -46,6 +46,55 @@
     "href": "index.html",
     "title": "kchhetri.github.io",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 21, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to Linear Regression using Machine Learning\n\n\n\n\n\n\n\nNews\n\n\nCode\n\n\nAnalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 18, 2023\n\n\nKamal Chhetri\n\n\n\n\n\n\nNo matching items"
+    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 21, 2023\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction to Linear Regression using Machine Learning\n\n\n\n\n\n\n\nNews\n\n\nCode\n\n\nAnalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 18, 2023\n\n\nKamal Chhetri\n\n\n\n\n\n\n  \n\n\n\n\nK-Nearest Neighbors (KNN) with Iris Dataset in R\n\n\n\n\n\n\n\nNews\n\n\nCode\n\n\nAnalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 18, 2023\n\n\nKamal Chhetri\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html#introduction",
+    "href": "posts/welcome/index.html#introduction",
+    "title": "Introduction to Linear Regression using Machine Learning",
+    "section": "",
+    "text": "K-Nearest Neighbors (KNN) is a simple yet powerful classification algorithm. It classifies a data point based on how its neighbors are classified. In this blog post, we will use the Iris dataset to understand how KNN works using R."
+  },
+  {
+    "objectID": "posts/welcome/index.html#what-is-knn",
+    "href": "posts/welcome/index.html#what-is-knn",
+    "title": "Introduction to Linear Regression using Machine Learning",
+    "section": "",
+    "text": "KNN is a type of instance-based learning, or lazy learning, where the function is only approximated locally and all computation is deferred until function evaluation. It’s both a classification and regression method."
+  },
+  {
+    "objectID": "posts/welcome/index.html#the-iris-dataset",
+    "href": "posts/welcome/index.html#the-iris-dataset",
+    "title": "Introduction to Linear Regression using Machine Learning",
+    "section": "",
+    "text": "The Iris dataset is a multivariate dataset introduced by the British statistician and biologist Ronald Fisher in his 1936 paper. The dataset consists of 50 samples from each of three species of Iris flowers (Iris setosa, Iris virginica, and Iris versicolor). Four features were measured from each sample: the lengths and the widths of the sepals and petals.\nLoad necessary libraries\n\nlibrary(class)\nlibrary(ggplot2)\n\nSet the random seed for reproducibility\n\nset.seed(0)\n\nSplit data into training and test sets\n\nnsample = nrow(iris)\ntrain.ix = sample(1:nsample, round(nsample / 2))\ntest.ix = setdiff(1:nsample, train.ix)\ntrain.X = iris[train.ix, 3:4]  # Only use Petal.Length, Petal.Width\ntrain.Y = iris[train.ix, 5]    # Factor data type\ntest.X = iris[test.ix, 3:4]\ntest.Y = iris[test.ix, 5]\n\nPerform classification for the test set\n\nk_value = 3\npred.Y = knn(train.X, test.X, train.Y, k = k_value)\nmcr = mean(test.Y != pred.Y)\n\nCreate a data frame to store test data and predicted labels\n\nresults_df &lt;- data.frame(\n  Petal.Length = test.X[, 1],\n  Petal.Width = test.X[, 2],\n  Actual_Class = test.Y,\n  Predicted_Class = pred.Y\n)\n\nPlot the test data points color-coded by their predicted class\n\nggplot(results_df, aes(x = Petal.Length, y = Petal.Width, color = factor(Actual_Class), shape = factor(Predicted_Class))) +\n  geom_point(size = 3) +\n  labs(x = \"Petal Length\", y = \"Petal Width\", title = paste(\"KNN Classification (k =\", k_value, \")\")) +\n  scale_color_discrete(name = \"Actual Class\") +\n  scale_shape_discrete(name = \"Predicted Class\") +\n  theme_minimal()\n\n\n\n\nPrint the confusion matrix\n\nconfusion_matrix &lt;- table(test.Y, pred.Y)\nprint(\"Confusion Matrix:\")\n\n[1] \"Confusion Matrix:\"\n\nprint(confusion_matrix)\n\n            pred.Y\ntest.Y       setosa versicolor virginica\n  setosa         21          0         0\n  versicolor      0         30         1\n  virginica       0          3        20\n\n\nCalculate the misclassification rate\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\"\n\n\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\""
+  },
+  {
+    "objectID": "posts/Linear regression/index.html",
+    "href": "posts/Linear regression/index.html",
+    "title": "K-Nearest Neighbors (KNN) with Iris Dataset in R",
+    "section": "",
+    "text": "K-Nearest Neighbors (KNN) is a simple yet powerful classification algorithm. It classifies a data point based on how its neighbors are classified. In this blog post, we will use the Iris dataset to understand how KNN works using R."
+  },
+  {
+    "objectID": "posts/Linear regression/index.html#introduction",
+    "href": "posts/Linear regression/index.html#introduction",
+    "title": "K-Nearest Neighbors (KNN) with Iris Dataset in R",
+    "section": "",
+    "text": "K-Nearest Neighbors (KNN) is a simple yet powerful classification algorithm. It classifies a data point based on how its neighbors are classified. In this blog post, we will use the Iris dataset to understand how KNN works using R."
+  },
+  {
+    "objectID": "posts/Linear regression/index.html#what-is-knn",
+    "href": "posts/Linear regression/index.html#what-is-knn",
+    "title": "K-Nearest Neighbors (KNN) with Iris Dataset in R",
+    "section": "What is KNN?",
+    "text": "What is KNN?\nKNN is a type of instance-based learning, or lazy learning, where the function is only approximated locally and all computation is deferred until function evaluation. It’s both a classification and regression method."
+  },
+  {
+    "objectID": "posts/Linear regression/index.html#the-iris-dataset",
+    "href": "posts/Linear regression/index.html#the-iris-dataset",
+    "title": "K-Nearest Neighbors (KNN) with Iris Dataset in R",
+    "section": "The Iris Dataset",
+    "text": "The Iris Dataset\nThe Iris dataset is a multivariate dataset introduced by the British statistician and biologist Ronald Fisher in his 1936 paper. The dataset consists of 50 samples from each of three species of Iris flowers (Iris setosa, Iris virginica, and Iris versicolor). Four features were measured from each sample: the lengths and the widths of the sepals and petals.\nLoad necessary libraries\n\nlibrary(class)\nlibrary(ggplot2)\n\nSet the random seed for reproducibility\n\nset.seed(0)\n\nSplit data into training and test sets\n\nnsample = nrow(iris)\ntrain.ix = sample(1:nsample, round(nsample / 2))\ntest.ix = setdiff(1:nsample, train.ix)\ntrain.X = iris[train.ix, 3:4]  # Only use Petal.Length, Petal.Width\ntrain.Y = iris[train.ix, 5]    # Factor data type\ntest.X = iris[test.ix, 3:4]\ntest.Y = iris[test.ix, 5]\n\nPerform classification for the test set\n\nk_value = 3\npred.Y = knn(train.X, test.X, train.Y, k = k_value)\nmcr = mean(test.Y != pred.Y)\n\nCreate a data frame to store test data and predicted labels\n\nresults_df &lt;- data.frame(\n  Petal.Length = test.X[, 1],\n  Petal.Width = test.X[, 2],\n  Actual_Class = test.Y,\n  Predicted_Class = pred.Y\n)\n\nPlot the test data points color-coded by their predicted class\n\nggplot(results_df, aes(x = Petal.Length, y = Petal.Width, color = factor(Actual_Class), shape = factor(Predicted_Class))) +\n  geom_point(size = 3) +\n  labs(x = \"Petal Length\", y = \"Petal Width\", title = paste(\"KNN Classification (k =\", k_value, \")\")) +\n  scale_color_discrete(name = \"Actual Class\") +\n  scale_shape_discrete(name = \"Predicted Class\") +\n  theme_minimal()\n\n\n\n\nPrint the confusion matrix\n\nconfusion_matrix &lt;- table(test.Y, pred.Y)\nprint(\"Confusion Matrix:\")\n\n[1] \"Confusion Matrix:\"\n\nprint(confusion_matrix)\n\n            pred.Y\ntest.Y       setosa versicolor virginica\n  setosa         21          0         0\n  versicolor      0         30         1\n  virginica       0          3        20\n\n\nCalculate the misclassification rate\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\"\n\n\n\nprint(paste(\"Misclassification Rate:\", mcr))\n\n[1] \"Misclassification Rate: 0.0533333333333333\""
   }
 ]

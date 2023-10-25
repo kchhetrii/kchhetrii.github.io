@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Linear Regression using Machine Learning"
+title: "K-Nearest Neighbors (KNN) with Iris Dataset in R"
 author: "Kamal Chhetri"
 date: "2023-10-18"
 categories:
@@ -7,8 +7,6 @@ categories:
   - Code
   - Analysis
 ---
-
-# K-Nearest Neighbors (KNN) with Iris Dataset in R
 
 ## Introduction
 
@@ -23,6 +21,7 @@ KNN is a type of instance-based learning, or lazy learning, where the function i
 The Iris dataset is a multivariate dataset introduced by the British statistician and biologist Ronald Fisher in his 1936 paper. The dataset consists of 50 samples from each of three species of Iris flowers (Iris setosa, Iris virginica, and Iris versicolor). Four features were measured from each sample: the lengths and the widths of the sepals and petals.
 
 Load necessary libraries
+
 ```{r}
 library(class)
 library(ggplot2)
