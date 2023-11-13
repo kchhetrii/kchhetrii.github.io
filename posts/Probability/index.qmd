@@ -1,0 +1,90 @@
+---
+title: "Probability theory and random variables"
+author: "Kamal Chhetri"
+date: "2023-10-18"
+categories:
+  - News
+  - Code
+  - Analysis
+---
+
+# Probability theory and random variables
+
+## Introduction
+
+Load necessary libraries
+
+```{r}
+library(class)
+library(ggplot2)
+```
+
+Set the random seed for reproducibility
+
+```{r}
+set.seed(0)
+```
+
+Split data into training and test sets
+
+```{r}
+nsample = nrow(iris)
+train.ix = sample(1:nsample, round(nsample / 2))
+test.ix = setdiff(1:nsample, train.ix)
+train.X = iris[train.ix, 3:4]  # Only use Petal.Length, Petal.Width
+train.Y = iris[train.ix, 5]    # Factor data type
+test.X = iris[test.ix, 3:4]
+test.Y = iris[test.ix, 5]
+```
+
+Perform classification for the test set
+
+```{r}
+k_value = 3
+pred.Y = knn(train.X, test.X, train.Y, k = k_value)
+mcr = mean(test.Y != pred.Y)
+```
+
+Create a data frame to store test data and predicted labels
+
+```{r}
+results_df <- data.frame(
+  Petal.Length = test.X[, 1],
+  Petal.Width = test.X[, 2],
+  Actual_Class = test.Y,
+  Predicted_Class = pred.Y
+)
+```
+
+Plot the test data points color-coded by their predicted class
+
+```{r}
+ggplot(results_df, aes(x = Petal.Length, y = Petal.Width, color = factor(Actual_Class), shape = factor(Predicted_Class))) +
+  geom_point(size = 3) +
+  labs(x = "Petal Length", y = "Petal Width", title = paste("KNN Classification (k =", k_value, ")")) +
+  scale_color_discrete(name = "Actual Class") +
+  scale_shape_discrete(name = "Predicted Class") +
+  theme_minimal()
+```
+
+Print the confusion matrix
+
+```{r}
+confusion_matrix <- table(test.Y, pred.Y)
+print("Confusion Matrix:")
+print(confusion_matrix)
+```
+
+Calculate the misclassification rate
+
+```{r}
+print(paste("Misclassification Rate:", mcr))
+```
+
+```{r}
+print(paste("Misclassification Rate:", mcr))
+```
+
+```{r}
+
+```

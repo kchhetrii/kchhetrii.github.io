@@ -1,0 +1,100 @@
+---
+title: "Clustering"
+author: "Kamal Chhetri"
+date: "2023-10-18"
+categories:
+  - News
+  - Code
+  - Analysis
+---
+
+# Clustering
+
+## Introduction
+
+Load necessary libraries
+
+I will be using fpc package. If it is not already installed in your R, you can install this package using install.packages("fpc").
+
+```{r}
+library(fpc) 
+
+```
+
+Load the data
+
+```{r}
+# Load the data into R
+data <- read.csv('/Users/test/Desktop/Machine_learning/mlblog/kchhetri.github.io/insurance.csv')
+
+# Lets see the couple of rows of this data
+head(data)
+```
+
+Split data into training and test sets
+
+```{r}
+str(data)
+```
+
+Perform DBSCAN on the loaded dataset:
+
+```{r}
+# Remove label form dataset 
+crop <- data[-7] 
+```
+
+Fitting DBSCAN clustering model:
+
+```{r}
+# Fitting DBScan clustering Model  
+# to training dataset 
+set.seed(0)  # Setting seed 
+Dbscan_cl <- dbscan(crop, eps = 0.45, MinPts = 5) 
+Dbscan_cl 
+```
+
+```{r}
+# Installing Packages 
+install.packages("fpc") 
+  
+# Loading package 
+library(fpc) 
+  
+# Remove label form dataset 
+iris_1 <- iris[-5] 
+  
+# Fitting DBScan clustering Model  
+# to training dataset 
+set.seed(220)  # Setting seed 
+Dbscan_cl <- dbscan(iris_1, eps = 0.45, MinPts = 5) 
+Dbscan_cl 
+  
+# Checking cluster 
+Dbscan_cl$cluster 
+  
+# Table 
+table(Dbscan_cl$cluster, iris$Species) 
+  
+# Plotting Cluster 
+plot(Dbscan_cl, iris_1, main = "DBScan") 
+plot(Dbscan_cl, iris_1, main = "Petal Width vs Sepal Length") 
+```
+
+Print the confusion matrix
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

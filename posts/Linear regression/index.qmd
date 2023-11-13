@@ -1,96 +1,257 @@
 ---
-title: "K-Nearest Neighbors (KNN) with Iris Dataset in R"
+title: "Linear Regression"
 author: "Kamal Chhetri"
 date: "2023-10-18"
 categories:
-  - News
+  - R
   - Code
   - Analysis
 ---
 
-## Introduction
+### Introduction
 
-K-Nearest Neighbors (KNN) is a simple yet powerful classification algorithm. It classifies a data point based on how its neighbors are classified. In this blog post, we will use the Iris dataset to understand how KNN works using R.
+Linear regression is a powerful statistical method that allows us to examine the relationship between two (simple linear regression) or more (multiple linear regression) variables. A key feature of linear regression is its simplicity and interpretability. It's used in various fields, including machine learning, most medical fields, and social sciences.
 
-## What is KNN?
+Linear regression models the relationship between two variables by fitting a linear equation to observed data. The steps to perform multiple linear regression are almost identical to those of simple linear regression.
 
-KNN is a type of instance-based learning, or lazy learning, where the function is only approximated locally and all computation is deferred until function evaluation. It's both a classification and regression method.
+![](https://editor.analyticsvidhya.com/uploads/375512.jpg)
 
-## The Iris Dataset
+[**Types of regression:**]{.underline}
 
-The Iris dataset is a multivariate dataset introduced by the British statistician and biologist Ronald Fisher in his 1936 paper. The dataset consists of 50 samples from each of three species of Iris flowers (Iris setosa, Iris virginica, and Iris versicolor). Four features were measured from each sample: the lengths and the widths of the sepals and petals.
+a\. Simple linear regression: In this case, we use only one input variable
 
-Load necessary libraries
+b\. Multiple linear regression: In this case, We use multiple input variable
+
+### The Dataset
+
+I will update about it soon.
+
+### Assumptions:
+
+There are several assumption for the linear regression model that I am using in this blog. They are explained below, lets take a look.
+
+[**Linearity:**]{.underline} The relationship between the independent and dependent variables is linear. This assumption can be checked by plotting the variables and examining the data scatter.
+
+[**Independence:**]{.underline} The residuals (the differences between the observed and predicted values) are independent. In other words, there is not a specific pattern in the residuals.
+
+[**Homoscedasticity:**]{.underline} The variance of the residuals is constant across all levels of the independent variables. This means that the spread of the residuals should be similar for all predicted values.
+
+[**Normality:**]{.underline} The residuals are normally distributed. If this assumption is violated, then the confidence intervals may not be accurate.
+
+[**Absence of multicollinearity:**]{.underline} In the case of multiple linear regression, the independent variables should not be too highly correlated with each other.
+
+[**Load necessary libraries:**]{.underline}
 
 ```{r}
-library(class)
+
+```
+
+[**Set the random seed for reproducibility:**]{.underline}
+
+```{python}
+#| echo: false
+#| output: false
+import warnings
+
+warnings.filterwarnings("ignore")
+
+```
+
+```{r}
+# Load packages
+library(caTools)
 library(ggplot2)
+library(dplyr)
+library(broom)
+library(ggpubr)
+library(corrplot)
+library(reshape2)
+SuppressWarnings()
 ```
 
-Set the random seed for reproducibility
-
 ```{r}
-set.seed(0)
+# Load the data into R
+data <- read.csv('/Users/test/Desktop/Machine_learning/mlblog/kchhetri.github.io/insurance.csv')
+
+# Lets see the couple of rows of this data
+head(data)
 ```
 
-Split data into training and test sets
+[**Load and clean the data:**]{.underline}
 
 ```{r}
-nsample = nrow(iris)
-train.ix = sample(1:nsample, round(nsample / 2))
-test.ix = setdiff(1:nsample, train.ix)
-train.X = iris[train.ix, 3:4]  # Only use Petal.Length, Petal.Width
-train.Y = iris[train.ix, 5]    # Factor data type
-test.X = iris[test.ix, 3:4]
-test.Y = iris[test.ix, 5]
+# Check for missing values
+sum(is.na(data))
+
+# Handle missing values (if any)
+# data <- na.omit(data)  # drops rows with missing values
+# data <- data[complete.cases(data), ]  # drops rows with missing values
+# data$column <- ifelse(is.na(data$column), mean(data$column, na.rm = TRUE), data$column)  # fills missing values with mean
 ```
 
-Perform classification for the test set
-
 ```{r}
-k_value = 3
-pred.Y = knn(train.X, test.X, train.Y, k = k_value)
-mcr = mean(test.Y != pred.Y)
+
 ```
 
-Create a data frame to store test data and predicted labels
+Since, we don't have any null or missing value in this data as indicated above. So, no further handling of missing data is needed.
 
 ```{r}
-results_df <- data.frame(
-  Petal.Length = test.X[, 1],
-  Petal.Width = test.X[, 2],
-  Actual_Class = test.Y,
-  Predicted_Class = pred.Y
-)
 ```
 
-Plot the test data points color-coded by their predicted class
+Visualize the data: for better understanding of the data before proceeding further
 
 ```{r}
-ggplot(results_df, aes(x = Petal.Length, y = Petal.Width, color = factor(Actual_Class), shape = factor(Predicted_Class))) +
-  geom_point(size = 3) +
-  labs(x = "Petal Length", y = "Petal Width", title = paste("KNN Classification (k =", k_value, ")")) +
-  scale_color_discrete(name = "Actual Class") +
-  scale_shape_discrete(name = "Predicted Class") +
+# Visualize the data
+ggplot(data, aes(x=bmi, y=charges)) +
+  geom_point() +
+  geom_smooth(method=lm, col="red") +
+  labs(x="Body Mass Index",
+       y="Insurance Charges",
+       title="Charge Vs BMI") +
   theme_minimal()
+
 ```
 
-Print the confusion matrix
+Lets take a look for the correlation between these two features: Our data contains one column "Species" which is non-numeric. Thus, we will firstly subset the data that doesnot contains "Species" column.
 
 ```{r}
-confusion_matrix <- table(test.Y, pred.Y)
-print("Confusion Matrix:")
-print(confusion_matrix)
+# Subset the data to include only numeric columns
+data_numeric <- data[, sapply(data, is.numeric)]
+
+# Calculate the correlation matrix
+correlation_matrix <- cor(data_numeric)
+
+# Print the correlation matrix
+print(correlation_matrix)
+
 ```
 
-Calculate the misclassification rate
+Create the heatmap for better visualization:
 
 ```{r}
-print(paste("Misclassification Rate:", mcr))
+# Melt the correlation matrix into a long format
+data_melt <- melt(correlation_matrix)
+
+# Create a heatmap with ggplot2
+ggplot(data_melt, aes(x=Var1, y=Var2, fill=value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), size = 4) +
+  scale_fill_gradient2(low="blue", high="red", mid="white", 
+                       midpoint=0, limit=c(-1,1), space="Lab", 
+                       name="Pearson\nCorrelation") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1),
+        axis.text.y = element_text(size = 12))
+```
+
+From the heatmap created using the above code, we can see there is no strong correlation between different variables. However, this part is made to visualize the data only.
+
+[**Building the model:**]{.underline} From the above code and analysis, we understand about the data and its distribution. Now, we can build model that fits for our data. In this particular case, we are going to use the linear regression model.
+
+```{r}
+# Create a violin plot for 'age'
+ggplot(data, aes(x=sex, y=charges)) +
+  geom_violin(fill="yellow") +
+  labs(title="Distribution of Charges by Sex", x="Sex", y="Charges")
+
+
+# Create a violin plot for 'charges' vs 'sex'
+p1 <- ggplot(data, aes(x=sex, y=charges)) +
+  geom_violin(fill="yellowgreen") +
+  labs(title="Violin plot of Charges vs Sex", x="Sex", y="Charges")
+
+# Create a violin plot for 'charges' vs 'smoker'
+p2 <- ggplot(data, aes(x=smoker, y=charges)) +
+  geom_violin(fill="goldenrod1") +
+  labs(title="Violin plot of Charges vs Smoker", x="Smoker", y="Charges")
+
+# Print the plots
+print(p1)
+print(p2)
+```
+
+According to the left plot, the average insurance cost for men and women is roughly the same at \$5,000. The insurance costs for smokers in the right plot vary significantly from those for non-smokers; the average cost for a non-smoker is about \$5,000. The minimum insurance premium for smokers is \$5,000.
+
+#### Need to check again on these
+
+```{r}
+# Split the data into training and test sets
+set.seed(0)
+sampleSplit <- sample.split(Y=data$bmi, SplitRatio=0.7)
+trainSet <- subset(x=data, sampleSplit==TRUE)
+testSet <- subset(x=data, sampleSplit==FALSE)
+
+
+# Fit the model
+model <- lm(formula=bmi ~ ., data=trainSet)
+
+```
+
+By using a linear combination of all other attributes, we hope to predict the bmi attribute. In this case, we don't have to worry about the categorical attributes. R automatically manages the categorical attributes.
+
+Lets see the summary of model:
+
+```{r}
+# Split the data into training and test sets
+summary(model)
+
+```
+
+The P-values that are shown in the Pr(\>\|t\|) column are the most intriguing aspect of this situation. The probability significance column Pr(\>\|t\|) in the above table is a crucial factor to take into account because it shows how important probability is for prediction. Here, we took a significance level of 5%  for the calculation.
+
+```{r}
+modelResiduals <- as.data.frame(residuals(model))
+ggplot(modelResiduals, aes(residuals(model)))+
+  geom_histogram(fill = 'mediumorchid1', color = 'black')
+
+```
+
+The distribution of the residual data is approximately normally distributed.
+
+Make the prediction:
+
+```{r}
+preds <- predict(model, testSet)
+
+```
+
+Now, see the further details by creating a table for for actual and prediction values from the above created model.
+
+```{r}
+modelEval <- cbind(testSet$bmi, preds)
+colnames(modelEval) <- c('Acual', 'Predicted')
+modelEval <- as.data.frame(modelEval)
+head(modelEval)
+
+```
+
+# **Now lets evaluate the prediction:**
+
+[**Model evaluation:**]{.underline} After building the model, its time to see how good the model is. We evaluate the model based on its performance which involved root mean square error (rmse).
+
+[**Lets learn little bit about rmse:**]{.underline} The Root Mean Square Error (RMSE) is a frequently used measure to evaluate the prediction errors of a regression model. It tells us about the distribution of the residuals (prediction errors), with a lower RMSE indicating a better fit for the data.
+
+During model evaluation, RMSE serves as a measure to understand the model's performance. Specifically, it reveals how close the predicted values are to the actual ones. An RMSE of zero indicates perfect predictions, which, in practice, is highly unlikely if not impossible.
+
+```{r}
+# Calculate error metrics
+mse <- mean((modelEval$Acual - modelEval$Predicted)^2)
+rmse <- sqrt(mse)
+print(rmse)
+
 ```
 
 ```{r}
-print(paste("Misclassification Rate:", mcr))
+
+```
+
+```{r}
+
+```
+
+```{r}
+
 ```
 
 ```{r}
