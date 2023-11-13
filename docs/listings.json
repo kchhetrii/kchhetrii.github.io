@@ -2,8 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Classification_Crop suitability/index.html",
       "/posts/post-with-code/index.html",
-      "/posts/welcome/index.html",
+      "/posts/Probability/index.html",
       "/posts/Linear regression/index.html"
     ]
   }
