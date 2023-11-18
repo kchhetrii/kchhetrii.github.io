@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Kamal Chhetri">
+<meta name="dcterms.date" content="2023-10-18">
 
-<title>kchhetri.github.io</title>
+<title>DNSCAN Clustering</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +22,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./media/dec.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../media/dec.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -62,42 +96,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="styles.css">
-<meta name="twitter:title" content="kchhetri.github.io">
-<meta name="twitter:image" content="https://kchhetrii.github.io/posts/post-with-code/image.jpg">
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="DNSCAN Clustering">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://kchhetrii.github.io/posts/clustering/clustering_files/figure-html/unnamed-chunk-9-1.png">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -108,10 +114,10 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./media/dec.png" alt="10-point star made up of 100 triangles" class="navbar-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../media/dec.png" alt="10-point star made up of 100 triangles" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Kamal Chhetri</span>
     </a>
   </div>
@@ -157,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">kchhetri.github.io</li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../posts/post-with-code/index.html">Posts</a></li><li class="breadcrumb-item"><a href="../../posts/clustering/clustering.html">Clustering</a></li><li class="breadcrumb-item"><a href="../../posts/clustering/clustering.html">DNSCAN Clustering</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -169,15 +175,32 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">kchhetri.github.io</h1>
-                      </div>
+    <div class="quarto-title column-page-right">
+      <h1 class="title">DNSCAN Clustering</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">News</div>
+                <div class="quarto-category">Code</div>
+                <div class="quarto-category">Analysis</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kamal Chhetri </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 18, 2023</p>
+      </div>
+    </div>
     
       
     </div>
@@ -195,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./about.html" class="sidebar-item-text sidebar-link">
+  <a href="../../about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
 </li>
@@ -210,11 +233,10 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/post-with-code/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts/post-with-code/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Post With Code</span></a>
   </div>
 </li>
-<<<<<<< HEAD
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
@@ -226,7 +248,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/Classification_Crop suitability/crop.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts/Classification_Crop suitability/crop.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Predicting Crop Suitability with Machine Learning using R</span></a>
   </div>
 </li>
@@ -234,16 +256,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">Clustering</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/clustering/clustering.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts/clustering/clustering.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">DNSCAN Clustering</span></a>
   </div>
 </li>
@@ -260,7 +282,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/Linear regression/lr.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts/Linear regression/lr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Linear Regression</span></a>
   </div>
 </li>
@@ -277,32 +299,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/Probability/pr.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts/Probability/pr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Probability theory and random variables</span></a>
   </div>
 </li>
       </ul>
   </li>
-=======
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./posts/Probability/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Probability theory and random variables</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./posts/Classification_Crop suitability/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicting Crop Suitability with Machine Learning using R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./posts/Linear regression/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Linear Regression</span></a>
-  </div>
-</li>
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
       </ul>
   </li>
     </ul>
@@ -310,296 +312,154 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-<<<<<<< HEAD
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Analysis">Analysis <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Code">Code <span class="quarto-category-count">(4)</span></div><div class="category" data-category="News">News <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="analysis">analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div></div></div>
-=======
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Analysis">Analysis <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Code">Code <span class="quarto-category-count">(3)</span></div><div class="category" data-category="News">News <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="analysis">analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div></div></div>
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-body" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page-right" id="quarto-document-content">
 
 
 
 
+<section id="understanding-dbscan-clustering-analysis-in-machine-learning" class="level1">
+<h1>Understanding DBSCAN Clustering Analysis in Machine Learning</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a popular clustering algorithm used in machine learning. Unlike other clustering algorithms such as K-means or hierarchical clustering, DBSCAN does not require the user to specify the number of clusters a priori. Instead, it infers the number of clusters based on the data's density.</p>
+</section>
+<section id="how-dbscan-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-dbscan-works">How DBSCAN Works</h2>
+<p>DBSCAN works by defining a cluster as a maximal set of density-connected points. It starts with an arbitrary point in the dataset. If there are at least <strong><code>minPts</code></strong> within a radius of <strong><code>eps</code></strong> from that point, a new cluster is created. The algorithm then iteratively adds all directly reachable points to the cluster. Once no more points can be added, the algorithm proceeds to the next unvisited point in the dataset.</p>
+</section>
+<section id="advantages-of-dbscan" class="level2">
+<h2 class="anchored" data-anchor-id="advantages-of-dbscan">Advantages of DBSCAN</h2>
+<p>DBSCAN has several advantages over other clustering algorithms:</p>
+<ol type="1">
+<li><p><strong>No need to specify the number of clusters</strong>: As mentioned earlier, DBSCAN does not require the user to specify the number of clusters a priori. This can be particularly useful when the number of clusters is not known beforehand.</p></li>
+<li><p><strong>Ability to find arbitrarily shaped clusters</strong>: Unlike K-means, which tends to find spherical clusters, DBSCAN can find clusters of arbitrary shapes.</p></li>
+<li><p><strong>Robustness to noise</strong>: DBSCAN is less sensitive to noise and outliers, as it only adds points that are directly reachable according to the density criteria.</p></li>
+</ol>
+</section>
+<section id="disadvantages-of-dbscan" class="level2">
+<h2 class="anchored" data-anchor-id="disadvantages-of-dbscan">Disadvantages of DBSCAN</h2>
+<p>Despite its advantages, DBSCAN also has some limitations:</p>
+<ol type="1">
+<li><p><strong>Difficulty handling varying densities</strong>: DBSCAN struggles with datasets where clusters have significantly different densities. This is because a single <strong><code>eps</code></strong> and <strong><code>minPts</code></strong> value may not be suitable for all clusters.</p></li>
+<li><p><strong>Sensitivity to parameter settings</strong>: The results of DBSCAN can be significantly affected by the settings of <strong><code>eps</code></strong> and <strong><code>minPts</code></strong>. Choosing appropriate values for these parameters can be challenging.</p></li>
+</ol>
+<p>In this blog post, we will perform a DBSCAN clustering analysis on an insurance dataset using R.</p>
+<p>Load necessary libraries</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data into R</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'/Users/test/Desktop/Machine_learning/mlblog/kchhetrii.github.io/insurance.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Lets see the couple of rows of this data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age    sex    bmi children smoker    region   charges
+1  19 female 27.900        0    yes southwest 16884.924
+2  18   male 33.770        1     no southeast  1725.552
+3  28   male 33.000        3     no southeast  4449.462
+4  33   male 22.705        0     no northwest 21984.471
+5  32   male 28.880        0     no northwest  3866.855
+6  31 female 25.740        0     no southeast  3756.622</code></pre>
+</div>
+</div>
+<p>The dataset contains information about individuals such as their age, sex, BMI, number of children, smoking status, region, and charges.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   1338 obs. of  7 variables:
+ $ age     : int  19 18 28 33 32 31 46 37 37 60 ...
+ $ sex     : chr  "female" "male" "male" "male" ...
+ $ bmi     : num  27.9 33.8 33 22.7 28.9 ...
+ $ children: int  0 1 3 0 0 0 1 3 2 0 ...
+ $ smoker  : chr  "yes" "no" "no" "no" ...
+ $ region  : chr  "southwest" "southeast" "southeast" "northwest" ...
+ $ charges : num  16885 1726 4449 21984 3867 ...</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="preprocessing-the-data" class="level1">
+<h1>Preprocessing the Data</h1>
+<p>Before we can perform DBSCAN clustering, we need to preprocess the data. This typically involves normalizing the data and converting categorical variables into numerical variables. However, for simplicity, let’s just use the numerical columns in our dataset:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_num <span class="ot">&lt;-</span> data[, <span class="fu">sapply</span>(data, is.numeric)]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_num)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age    bmi children   charges
+1  19 27.900        0 16884.924
+2  18 33.770        1  1725.552
+3  28 33.000        3  4449.462
+4  33 22.705        0 21984.471
+5  32 28.880        0  3866.855
+6  31 25.740        0  3756.622</code></pre>
+</div>
+</div>
+</section>
+<section id="perform-dbscan-on-the-loaded-dataset" class="level1">
+<h1>Perform DBSCAN on the loaded dataset:</h1>
+<section id="remove-label-form-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="remove-label-form-dataset">Remove label form dataset</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>med <span class="ot">&lt;-</span> data_num[<span class="sc">-</span><span class="dv">4</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Fitting DBSCAN clustering model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0</span>)  <span class="co"># Setting seed </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Dbscan_cl <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(med, <span class="at">eps =</span> <span class="fl">0.45</span>, <span class="at">MinPts =</span> <span class="dv">5</span>) </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Dbscan_cl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dbscan Pts=1338 MinPts=5 eps=0.45
+          0 1 2 3 4 5
+border 1310 5 2 4 3 4
+seed      0 1 5 1 1 2
+total  1310 6 7 5 4 6</code></pre>
+</div>
+</div>
+<p>In this code, eps is the maximum distance between two samples for them to be considered as in the same neighborhood, and MinPts is the number of samples in a neighborhood for a point to be considered as a core point.</p>
+</section>
+</section>
+<section id="visualizing-the-results" class="level1">
+<h1>Visualizing the Results</h1>
+<p>Finally, let’s visualize the results. We will create a scatter plot of the data, with each point colored according to its cluster assignment:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Dbscan_cl<span class="sc">$</span>cluster, data_num<span class="sc">$</span>age) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   
+    18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42
+  0 63 46 29 28 28 28 28 28 28 28 28 27 27 27 26 26 26 25 25 25 25 25 27 27 27
+  1  0  6  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  2  0  7  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  3  0  5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  4  0  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  5  6  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+   
+    43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64
+  0 27 27 29 29 29 29 28 29 29 29 28 28 26 26 26 25 25 23 23 23 23 22
+  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  2  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  3  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+  5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting Cluster </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Dbscan_cl, med, <span class="at">main =</span> <span class="st">"DBScan"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="clustering_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this plot, points that belong to the same cluster have the same color.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<<<<<<< HEAD
-<div class="quarto-post image-right" data-index="0" data-categories="R,Code,Analysis" data-listing-date-sort="1698465600000" data-listing-file-modified-sort="1700108651391" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<div class="thumbnail">
-<p><a href="./posts/Classification_Crop suitability/crop.html"> <p class="card-img-top"><img src="posts/Classification_Crop suitability/crop_files/figure-html/unnamed-chunk-7-1.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Classification_Crop suitability/crop.html">
-=======
-<div class="quarto-post image-right" data-index="0" data-categories="R,Code,Analysis" data-listing-date-sort="1698465600000" data-listing-file-modified-sort="1698700685952" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<div class="thumbnail">
-<p><a href="./posts/Classification_Crop suitability/index.html"> <p class="card-img-top"><img src="posts/Classification_Crop suitability/index_files/figure-html/unnamed-chunk-7-1.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Classification_Crop suitability/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<h3 class="no-anchor listing-title">
-Predicting Crop Suitability with Machine Learning using R
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Code'); return false;">
-Code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
-Analysis
-</div>
-</div>
-<<<<<<< HEAD
-<a href="./posts/Classification_Crop suitability/crop.html">
-=======
-<a href="./posts/Classification_Crop suitability/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="listing-description">
-Machine learning is a rapidly evolving field that is generating intense interest because of its increasing applications in businesses and scientific research. Three popular…
-</div>
-</a>
-</div>
-<div class="metadata">
-<<<<<<< HEAD
-<a href="./posts/Classification_Crop suitability/crop.html">
-=======
-<a href="./posts/Classification_Crop suitability/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="listing-date">
-Oct 28, 2023
-</div>
-<div class="listing-author">
-Kamal Chhetri
-</div>
-</a>
-</div>
-</div>
-<<<<<<< HEAD
-<div class="quarto-post image-right" data-index="1" data-categories="news,code,analysis" data-listing-date-sort="1697860800000" data-listing-file-modified-sort="1700190998240" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-=======
-<div class="quarto-post image-right" data-index="1" data-categories="news,code,analysis" data-listing-date-sort="1697860800000" data-listing-file-modified-sort="1698089308745" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="thumbnail">
-<p><a href="./posts/post-with-code/index.html"> <img src="./posts/post-with-code/image.jpg" class="thumbnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="./posts/post-with-code/index.html">
-<h3 class="no-anchor listing-title">
-Post With Code
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('news'); return false;">
-news
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('analysis'); return false;">
-analysis
-</div>
-</div>
-<a href="./posts/post-with-code/index.html">
-<div class="listing-description">
-<<<<<<< HEAD
-This is a post with executable code. edit this code:
-=======
-This is a post with executable code.
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/post-with-code/index.html">
-<div class="listing-date">
-Oct 21, 2023
-</div>
-<div class="listing-author">
-Harlow Malloc
-</div>
-</a>
-</div>
-</div>
-<<<<<<< HEAD
-<div class="quarto-post image-right" data-index="2" data-categories="News,Code,Analysis" data-listing-date-sort="1697601600000" data-listing-file-modified-sort="1700319852510" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
-<div class="thumbnail">
-<p><a href="./posts/Probability/pr.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Probability/pr.html">
-=======
-<div class="quarto-post image-right" data-index="2" data-categories="News,Code,Analysis" data-listing-date-sort="1697601600000" data-listing-file-modified-sort="1699758437818" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1">
-<div class="thumbnail">
-<p><a href="./posts/Probability/index.html"> <p class="card-img-top"><img src="posts/Probability/index_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Probability/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<h3 class="no-anchor listing-title">
-Probability theory and random variables
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('News'); return false;">
-News
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Code'); return false;">
-Code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
-Analysis
-</div>
-</div>
-<<<<<<< HEAD
-<a href="./posts/Probability/pr.html">
-<div class="listing-description">
-Machine learning, at its core, is deeply rooted in statistics and mathematics. One of the fundamental concepts that underpin these fields is <strong>probability theory</strong>. In this blog post, we will delve into the world of probability theory and random variables, and explore their significance in…
-=======
-<a href="./posts/Probability/index.html">
-<div class="listing-description">
-Load necessary libraries
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-</div>
-</a>
-</div>
-<div class="metadata">
-<<<<<<< HEAD
-<a href="./posts/Probability/pr.html">
-=======
-<a href="./posts/Probability/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="listing-date">
-Oct 18, 2023
-</div>
-<div class="listing-author">
-Kamal Chhetri
-</div>
-</a>
-</div>
-</div>
-<<<<<<< HEAD
-<div class="quarto-post image-right" data-index="3" data-categories="News,Code,Analysis" data-listing-date-sort="1697601600000" data-listing-file-modified-sort="1700175102425" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
-<div class="thumbnail">
-<p><a href="./posts/clustering/clustering.html"> <p class="card-img-top"><img src="posts/clustering/clustering_files/figure-html/unnamed-chunk-9-1.png"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/clustering/clustering.html">
-<h3 class="no-anchor listing-title">
-DNSCAN Clustering
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('News'); return false;">
-News
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Code'); return false;">
-Code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
-Analysis
-</div>
-</div>
-<a href="./posts/clustering/clustering.html">
-<div class="listing-description">
-Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a popular clustering algorithm used in machine learning. Unlike other clustering algorithms such as…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/clustering/clustering.html">
-<div class="listing-date">
-Oct 18, 2023
-</div>
-<div class="listing-author">
-Kamal Chhetri
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="R,Code,Analysis" data-listing-date-sort="1697601600000" data-listing-file-modified-sort="1700108489571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<div class="thumbnail">
-<p><a href="./posts/Linear regression/lr.html"> <p class="card-img-top"><img src="https://editor.analyticsvidhya.com/uploads/375512.jpg"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Linear regression/lr.html">
-=======
-<div class="quarto-post image-right" data-index="3" data-categories="R,Code,Analysis" data-listing-date-sort="1697601600000" data-listing-file-modified-sort="1699741235425" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<div class="thumbnail">
-<p><a href="./posts/Linear regression/index.html"> <p class="card-img-top"><img src="https://editor.analyticsvidhya.com/uploads/375512.jpg"  class="thumbnail-image card-img"/></p> </a></p>
-</div>
-<div class="body">
-<a href="./posts/Linear regression/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<h3 class="no-anchor listing-title">
-Linear Regression
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Code'); return false;">
-Code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
-Analysis
-</div>
-</div>
-<<<<<<< HEAD
-<a href="./posts/Linear regression/lr.html">
-=======
-<a href="./posts/Linear regression/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="listing-description">
-Linear regression is a powerful statistical method that allows us to examine the relationship between two (simple linear regression) or more (multiple linear regression)…
-</div>
-</a>
-</div>
-<div class="metadata">
-<<<<<<< HEAD
-<a href="./posts/Linear regression/lr.html">
-=======
-<a href="./posts/Linear regression/index.html">
->>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
-<div class="listing-date">
-Oct 18, 2023
-</div>
-<div class="listing-author">
-Kamal Chhetri
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

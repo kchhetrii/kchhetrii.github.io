@@ -1,0 +1,300 @@
+---
+title: "Predicting Crop Suitability with Machine Learning using R "
+author: "Kamal Chhetri"
+date: "2023-10-28"
+categories:
+  - R
+  - Code
+  - Analysis
+---
+
+## Introduction
+
+Machine learning is a rapidly evolving field that is generating intense interest because of its increasing applications in businesses and scientific research. Three popular machine learning algorithms are Random Forest (RF), Support Vector Machines (SVM), and Naive Bayes (NB). These algorithms have found applications in various fields, including, but not limited to, medical diagnosis, spam filtering, image and speech recognition, and credit scoring.
+
+## Random Forest (RF)
+
+Random Forest is a widely used machine-learning algorithm developed by Leo Breiman and Adele Cutler. It combines the output of multiple decision trees to reach a single result. Its ease of use and flexibility have fueled its adoption, as it handles both classification and regression problems. The main idea behind RF is to construct a multitude of decision trees at training time and output the class, that is, the mode of the classes for classification or mean prediction of the individual trees for regression. Random forests generally outperform decision trees, but their accuracy is lower than gradient-boosted trees.
+
+## Support Vector Machines (SVM)
+
+Support Vector Machines (SVMs) are a set of supervised learning methods used for classification, regression, and outliers detection. Developed at AT&T Bell Laboratories by Vladimir Vapnik and colleagues, SVMs are one of the most robust prediction methods. SVM works by finding a hyperplane in a high-dimensional space that best separates data into different classes. It's effective in high dimensional spaces and still effective in cases where the number of dimensions is greater than the number of samples. In addition to performing linear classification, SVMs can efficiently perform a non-linear classification using what is called the kernel trick, implicitly mapping their inputs into high-dimensional feature spaces.
+
+## Naive Bayes (NB)
+
+Naive Bayes is a probabilistic machine learning algorithm that can be used in several classification tasks. Typical applications of Naive Bayes are the classification of documents, filtering spam, prediction, and so on. This algorithm is based on the discoveries of Thomas Bayes and, hence its name. The Naïve Bayes classifier is a supervised machine learning algorithm that is used for classification tasks like text classification. It is also part of a family of generative learning algorithms, meaning that it seeks to model the distribution of inputs of a given class or category.
+
+In this project, I used machine learning to predict the suitability of different crops for a specific area. The area in question is Blackstone, VA, and the goal was to determine which crop would be most suitable given the area's average temperature, humidity, pH level, rainfall, and NPK values.
+
+## The Data
+
+The data used in this project was stored in a CSV file named Crop_recommendation.csv. This file contained various parameters for different crops, including N, P, K, temperature, humidity, pH, rainfall, and a label indicating the crop type.
+
+Before diving into the machine learning aspect of the project, I first explored the data. I used R's head() and tail() functions to view the first and last few rows of the data. I also checked for missing or null values using R's is.na() function.
+
+## Data Visualization
+
+To get a better understanding of the data, I visualized it using R's ggplot2 library. I created scatter plots to examine the relationship between different parameters and the crop label. For example, I plotted pH vs label and rainfall vs crop to see if there were any noticeable trends or patterns.
+
+## Data Processing
+
+Next, I processed the data by separating it into feature and target variables. The feature variables included N, P, K, temperature, humidity, pH, and rainfall. The target variable was the crop label.
+
+## Model Selection
+
+I used three different machine learning algorithms for this project: Random Forest (RF), Support Vector Machine (SVM), and Naive Bayes (NB). I trained each model on the training data and then evaluated their performance based on their accuracy.
+
+To visualize the accuracy of each model, I created a line plot using ggplot2. This plot showed that Random Forest had the highest accuracy of prediction.
+
+[**Load necessary libraries:**]{.underline}
+
+```{r}
+library(caret)
+library(e1071)
+library(ggplot2)
+library(randomForest)
+library(pheatmap)
+```
+
+[**Load the data:**]{.underline}
+
+```{r}
+data <- read.csv("/Users/test/Desktop/Machine_learning/mlblog/kchhetrii.github.io/Crop_recommendation.csv")
+head(data)
+```
+
+```{r}
+set.seed(123)
+```
+
+[**Split the data into training and testing sets:**]{.underline}
+
+```{r}
+# See the head and tail of data
+head(data)
+```
+
+```{r}
+# Check for missing values
+sum(is.na(data))
+```
+
+[**Create a data frame to store test data and predicted labels:**]{.underline}
+
+```{r}
+# See the distribution of data 
+summary(data)
+```
+
+[**See the relationship between different parameters such as Ph vs label or precipitation vs crop:**]{.underline}
+
+```{r}
+ggplot(data, aes(x=ph, y=label, color=label)) + geom_point()
+```
+
+```{r}
+ggplot(data, aes(x=rainfall, y=label, color=label)) + geom_point()
+```
+
+[**Data processing: separate feature and target variable:**]{.underline}
+
+```{r}
+features <- data[,1:7]
+target <- data$label
+```
+
+[**Split the data into training and testing sets:**]{.underline}
+
+```{r}
+set.seed(123)
+trainIndex <- createDataPartition(target, p=0.8, list=FALSE)
+trainData <- features[trainIndex, ]
+trainLabels <- target[trainIndex]
+testData <- features[-trainIndex, ]
+testLabels <- target[-trainIndex]
+```
+
+[**Define training control:**]{.underline}
+
+```{r}
+train_control <- trainControl(method="cv", number=10)
+
+# Train the models
+set.seed(123)
+model_rf <- train(trainData, trainLabels, trControl=train_control, method="rf")
+model_svm <- train(trainData, trainLabels, trControl=train_control, method="svmRadial")
+model_nb <- train(trainData, trainLabels, trControl=train_control, method="naive_bayes")
+
+```
+
+```{r}
+# Ensure 'label' is a factor in both training and testing sets
+trainLabels <- as.factor(trainLabels)
+testLabels <- as.factor(testLabels)
+```
+
+[**Make predictions on the test data:**]{.underline}
+
+**Using Random Forest:**
+
+```{r}
+pred_rf <- predict(model_rf, testData)
+
+# Generate confusion matrices
+cm_rf <- confusionMatrix(pred_rf, testLabels)
+
+# Convert it to the numeric form and visualize using the heatmap
+cm_rf_numeric <- as.matrix(cm_rf)
+cm_rf_numeric[] <- as.numeric(cm_rf_numeric)
+pheatmap(cm_rf_numeric, display_numbers = T)
+```
+
+**For SVM**
+
+```{r}
+pred_svm <- predict(model_svm, testData)
+# Generate confusion matrices
+cm_svm <- confusionMatrix(pred_svm, testLabels)
+# Print confusion matrices
+
+```
+
+**For NB**
+
+```{r}
+pred_nb <- predict(model_nb, testData)
+# Generate confusion matrices
+cm_nb <- confusionMatrix(pred_nb, testLabels)
+
+
+# Convert it to a numeric matrix and creating heatmap based on this:
+cm_nb_numeric <- as.matrix(cm_nb)
+cm_nb_numeric[] <- as.numeric(cm_nb_numeric)
+pheatmap(cm_nb_numeric, display_numbers = T)
+
+
+```
+
+```{r}
+
+```
+
+[**Calculate and print misclassification rates:**]{.underline}
+
+```{r}
+mis_rf <- 1 - cm_rf$overall['Accuracy']
+mis_svm <- 1 - cm_svm$overall['Accuracy']
+mis_nb <- 1 - cm_nb$overall['Accuracy']
+
+
+# Create a data frame to store the misclassification rates
+misclassification <- data.frame(
+  Model = c("Random Forest", "SVM", "Naive Bayes"),
+  Misclassification_Rate = c(mis_rf, mis_svm, mis_nb)
+)
+
+# Print the misclassification rates
+print(misclassification)
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+# Summarize the results
+results <- resamples(list(RF=model_rf, SVM=model_svm, NB=model_nb))
+summary(results)
+```
+
+```{r}
+# Plot the results
+dotplot(results, metric = "Accuracy")
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+```
+
+[**Making Predictions:**]{.underline}
+
+Finally, I used the best model (Random Forest) to make predictions. Given the average temperature (21.7 - 31.7 C), average humidity (71), pH level (5), rainfall (118 cm), and NPK values (89, 41, 22) of Blackstone Area, VA, the model predicted that Maize would be the most suitable crop for this area.
+
+```{r}
+# Train the model
+model_rf <- train(trainData, trainLabels, trControl=train_control, method="rf", ntree=100)
+
+newData <- data.frame(N=89, P=41, K=22, temperature=26.7, humidity=71, ph=5, rainfall=118)
+prediction <- predict(model_rf, newData)
+print(paste("The suitable crop for Blackstone Area is:", prediction))
+
+```
+
+```{r}
+print(paste("The suitable crop for Blackstone Area is:", prediction))
+```
+
+Conclusion
+
+This project demonstrated how machine learning can be used to predict crop suitability based on various environmental parameters. While this was just one example, this approach could be applied to any area with known parameters to help farmers make informed decisions about which crops to plant.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

@@ -1,0 +1,257 @@
+---
+title: "Linear Regression"
+author: "Kamal Chhetri"
+date: "2023-10-18"
+categories:
+  - R
+  - Code
+  - Analysis
+---
+
+### Introduction
+
+Linear regression is a powerful statistical method that allows us to examine the relationship between two (simple linear regression) or more (multiple linear regression) variables. A key feature of linear regression is its simplicity and interpretability. It's used in various fields, including machine learning, most medical fields, and social sciences.
+
+Linear regression models the relationship between two variables by fitting a linear equation to observed data. The steps to perform multiple linear regression are almost identical to those of simple linear regression.
+
+![](https://editor.analyticsvidhya.com/uploads/375512.jpg)
+
+[**Types of regression:**]{.underline}
+
+a\. Simple linear regression: In this case, we use only one input variable
+
+b\. Multiple linear regression: In this case, We use multiple input variable
+
+### The Dataset
+
+I will update about it soon.
+
+### Assumptions:
+
+There are several assumption for the linear regression model that I am using in this blog. They are explained below, lets take a look.
+
+[**Linearity:**]{.underline} The relationship between the independent and dependent variables is linear. This assumption can be checked by plotting the variables and examining the data scatter.
+
+[**Independence:**]{.underline} The residuals (the differences between the observed and predicted values) are independent. In other words, there is not a specific pattern in the residuals.
+
+[**Homoscedasticity:**]{.underline} The variance of the residuals is constant across all levels of the independent variables. This means that the spread of the residuals should be similar for all predicted values.
+
+[**Normality:**]{.underline} The residuals are normally distributed. If this assumption is violated, then the confidence intervals may not be accurate.
+
+[**Absence of multicollinearity:**]{.underline} In the case of multiple linear regression, the independent variables should not be too highly correlated with each other.
+
+[**Load necessary libraries:**]{.underline}
+
+```{r}
+
+```
+
+[**Set the random seed for reproducibility:**]{.underline}
+
+```{python}
+#| echo: false
+#| output: false
+import warnings
+warnings.filterwarnings("ignore")
+
+```
+
+```{r}
+# Load packages
+library(caTools)
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(ggpubr)
+library(corrplot)
+library(reshape2)
+```
+
+```{r}
+# Load the data into R
+data <- read.csv('/Users/test/Desktop/Machine_learning/mlblog/kchhetrii.github.io/insurance.csv')
+
+# Lets see the couple of rows of this data
+head(data)
+```
+
+[**Load and clean the data:**]{.underline}
+
+```{r}
+# Check for missing values
+sum(is.na(data))
+
+# Handle missing values (if any)
+# data <- na.omit(data)  # drops rows with missing values
+# data <- data[complete.cases(data), ]  # drops rows with missing values
+# data$column <- ifelse(is.na(data$column), mean(data$column, na.rm = TRUE), data$column)  # fills missing values with mean
+```
+
+```{r}
+
+```
+
+Since, we don't have any null or missing value in this data as indicated above. So, no further handling of missing data is needed.
+
+```{r}
+```
+
+Visualize the data: for better understanding of the data before proceeding further
+
+```{r}
+# Visualize the data
+ggplot(data, aes(x=bmi, y=charges)) +
+  geom_point() +
+  geom_smooth(method=lm, col="red") +
+  labs(x="Body Mass Index",
+       y="Insurance Charges",
+       title="Charge Vs BMI") +
+  theme_minimal()
+
+```
+
+Lets take a look for the correlation between these two features: Our data contains one column "Species" which is non-numeric. Thus, we will firstly subset the data that doesnot contains "Species" column.
+
+```{r}
+# Subset the data to include only numeric columns
+data_numeric <- data[, sapply(data, is.numeric)]
+
+# Calculate the correlation matrix
+correlation_matrix <- cor(data_numeric)
+
+# Print the correlation matrix
+print(correlation_matrix)
+
+```
+
+Create the heatmap for better visualization:
+
+```{r}
+# Melt the correlation matrix into a long format
+data_melt <- melt(correlation_matrix)
+
+# Create a heatmap with ggplot2
+ggplot(data_melt, aes(x=Var1, y=Var2, fill=value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), size = 4) +
+  scale_fill_gradient2(low="blue", high="red", mid="white", 
+                       midpoint=0, limit=c(-1,1), space="Lab", 
+                       name="Pearson\nCorrelation") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1),
+        axis.text.y = element_text(size = 12))
+```
+
+From the heatmap created using the above code, we can see there is no strong correlation between different variables. However, this part is made to visualize the data only.
+
+[**Building the model:**]{.underline} From the above code and analysis, we understand about the data and its distribution. Now, we can build model that fits for our data. In this particular case, we are going to use the linear regression model.
+
+```{r}
+# Create a violin plot for 'age'
+ggplot(data, aes(x=sex, y=charges)) +
+  geom_violin(fill="yellow") +
+  labs(title="Distribution of Charges by Sex", x="Sex", y="Charges")
+
+
+# Create a violin plot for 'charges' vs 'sex'
+p1 <- ggplot(data, aes(x=sex, y=charges)) +
+  geom_violin(fill="yellowgreen") +
+  labs(title="Violin plot of Charges vs Sex", x="Sex", y="Charges")
+
+# Create a violin plot for 'charges' vs 'smoker'
+p2 <- ggplot(data, aes(x=smoker, y=charges)) +
+  geom_violin(fill="goldenrod1") +
+  labs(title="Violin plot of Charges vs Smoker", x="Smoker", y="Charges")
+
+# Print the plots
+print(p1)
+print(p2)
+```
+
+According to the left plot, the average insurance cost for men and women is roughly the same at \$5,000. The insurance costs for smokers in the right plot vary significantly from those for non-smokers; the average cost for a non-smoker is about \$5,000. The minimum insurance premium for smokers is \$5,000.
+
+#### Need to check again on these
+
+```{r}
+# Split the data into training and test sets
+set.seed(0)
+sampleSplit <- sample.split(Y=data$bmi, SplitRatio=0.7)
+trainSet <- subset(x=data, sampleSplit==TRUE)
+testSet <- subset(x=data, sampleSplit==FALSE)
+
+
+# Fit the model
+model <- lm(formula=bmi ~ ., data=trainSet)
+
+```
+
+By using a linear combination of all other attributes, we hope to predict the bmi attribute. In this case, we don't have to worry about the categorical attributes. R automatically manages the categorical attributes.
+
+Lets see the summary of model:
+
+```{r}
+# Split the data into training and test sets
+summary(model)
+
+```
+
+The P-values that are shown in the Pr(\>\|t\|) column are the most intriguing aspect of this situation. The probability significance column Pr(\>\|t\|) in the above table is a crucial factor to take into account because it shows how important probability is for prediction. Here, we took a significance level of 5%  for the calculation.
+
+```{r}
+modelResiduals <- as.data.frame(residuals(model))
+ggplot(modelResiduals, aes(residuals(model)))+
+  geom_histogram(fill = 'mediumorchid1', color = 'black')
+
+```
+
+The distribution of the residual data is approximately normally distributed.
+
+Make the prediction:
+
+```{r}
+preds <- predict(model, testSet)
+
+```
+
+Now, see the further details by creating a table for for actual and prediction values from the above created model.
+
+```{r}
+modelEval <- cbind(testSet$bmi, preds)
+colnames(modelEval) <- c('Acual', 'Predicted')
+modelEval <- as.data.frame(modelEval)
+head(modelEval)
+
+```
+
+# **Now lets evaluate the prediction:**
+
+[**Model evaluation:**]{.underline} After building the model, its time to see how good the model is. We evaluate the model based on its performance which involved root mean square error (rmse).
+
+[**Lets learn little bit about rmse:**]{.underline} The Root Mean Square Error (RMSE) is a frequently used measure to evaluate the prediction errors of a regression model. It tells us about the distribution of the residuals (prediction errors), with a lower RMSE indicating a better fit for the data.
+
+During model evaluation, RMSE serves as a measure to understand the model's performance. Specifically, it reveals how close the predicted values are to the actual ones. An RMSE of zero indicates perfect predictions, which, in practice, is highly unlikely if not impossible.
+
+```{r}
+# Calculate error metrics
+mse <- mean((modelEval$Acual - modelEval$Predicted)^2)
+rmse <- sqrt(mse)
+print(rmse)
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

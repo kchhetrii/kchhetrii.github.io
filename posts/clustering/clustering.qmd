@@ -1,0 +1,111 @@
+---
+title: "DNSCAN Clustering"
+author: "Kamal Chhetri"
+date: "2023-10-18"
+categories:
+  - News
+  - Code
+  - Analysis
+---
+
+# Understanding DBSCAN Clustering Analysis in Machine Learning
+
+## Introduction
+
+Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a popular clustering algorithm used in machine learning. Unlike other clustering algorithms such as K-means or hierarchical clustering, DBSCAN does not require the user to specify the number of clusters a priori. Instead, it infers the number of clusters based on the data\'s density.
+
+## How DBSCAN Works
+
+DBSCAN works by defining a cluster as a maximal set of density-connected points. It starts with an arbitrary point in the dataset. If there are at least **`minPts`** within a radius of **`eps`** from that point, a new cluster is created. The algorithm then iteratively adds all directly reachable points to the cluster. Once no more points can be added, the algorithm proceeds to the next unvisited point in the dataset.
+
+## Advantages of DBSCAN
+
+DBSCAN has several advantages over other clustering algorithms:
+
+1.  **No need to specify the number of clusters**: As mentioned earlier, DBSCAN does not require the user to specify the number of clusters a priori. This can be particularly useful when the number of clusters is not known beforehand.
+
+2.  **Ability to find arbitrarily shaped clusters**: Unlike K-means, which tends to find spherical clusters, DBSCAN can find clusters of arbitrary shapes.
+
+3.  **Robustness to noise**: DBSCAN is less sensitive to noise and outliers, as it only adds points that are directly reachable according to the density criteria.
+
+## Disadvantages of DBSCAN
+
+Despite its advantages, DBSCAN also has some limitations:
+
+1.  **Difficulty handling varying densities**: DBSCAN struggles with datasets where clusters have significantly different densities. This is because a single **`eps`** and **`minPts`** value may not be suitable for all clusters.
+
+2.  **Sensitivity to parameter settings**: The results of DBSCAN can be significantly affected by the settings of **`eps`** and **`minPts`**. Choosing appropriate values for these parameters can be challenging.
+
+In this blog post, we will perform a DBSCAN clustering analysis on an insurance dataset using R.
+
+Load necessary libraries
+
+```{r}
+library(fpc) 
+```
+
+```{r}
+# Load the data into R
+data <- read.csv('/Users/test/Desktop/Machine_learning/mlblog/kchhetrii.github.io/insurance.csv')
+
+# Lets see the couple of rows of this data
+head(data)
+```
+The dataset contains information about individuals such as their age, sex, BMI, number of children, smoking status, region, and charges.
+
+```{r}
+str(data)
+```
+
+# Preprocessing the Data
+Before we can perform DBSCAN clustering, we need to preprocess the data. This typically involves normalizing the data and converting categorical variables into numerical variables. However, for simplicity, let’s just use the numerical columns in our dataset:
+```{r}
+data_num <- data[, sapply(data, is.numeric)]
+head(data_num)
+```
+
+
+
+# Perform DBSCAN on the loaded dataset:
+## Remove label form dataset
+```{r}
+med <- data_num[-4] 
+```
+
+Fitting DBSCAN clustering model:
+```{r}
+set.seed(0)  # Setting seed 
+Dbscan_cl <- dbscan(med, eps = 0.45, MinPts = 5) 
+Dbscan_cl
+```
+In this code, eps is the maximum distance between two samples for them to be considered as in the same neighborhood, and MinPts is the number of samples in a neighborhood for a point to be considered as a core point.
+
+# Visualizing the Results
+Finally, let’s visualize the results. We will create a scatter plot of the data, with each point colored according to its cluster assignment:
+
+```{r}
+ 
+```
+
+
+```{r}
+# Table 
+table(Dbscan_cl$cluster, data_num$age) 
+```
+
+
+```{r}
+# Plotting Cluster 
+plot(Dbscan_cl, med, main = "DBScan") 
+```
+
+In this plot, points that belong to the same cluster have the same color.
+```{r}
+
+```
+
+
+```{r}
+
+```
+

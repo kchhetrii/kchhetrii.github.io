@@ -6,10 +6,17 @@ categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
+<<<<<<< HEAD
+This is a post with executable code. edit this code:
+
+```{r}
+
+=======
 This is a post with executable code.
 
 edit this code
 
 ```{r}
 1 + 1
+>>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
 ```
