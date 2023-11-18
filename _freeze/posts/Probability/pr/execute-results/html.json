@@ -1,0 +1,14 @@
+{
+  "hash": "2a52be66606c8d5daab38350ec903b73",
+  "result": {
+    "markdown": "---\ntitle: \"Probability theory and random variables\"\nauthor: \"Kamal Chhetri\"\ndate: \"2023-10-18\"\ncategories:\n  - News\n  - Code\n  - Analysis\n---\n\n\n# Probability theory and random variables\n\n## Introduction:\n\nMachine learning, at its core, is deeply rooted in statistics and mathematics. One of the fundamental concepts that underpin these fields is **probability theory**. In this blog post, we will delve into the world of probability theory and random variables, and explore their significance in machine learning.\n\n## Probability Theory:\n\nProbability theory is a branch of mathematics concerned with the analysis of random phenomena. It provides a mathematical framework for quantifying uncertainty, which is a common feature in real-world data and scenarios.\n\nIn machine learning, probability theory is used to make predictions. For instance, in a classification problem, a model might predict the probability of a given data point belonging to a particular class.\n\n## Random Variables\n\nA random variable is a variable whose possible values are outcomes of a random phenomenon. There are two types of random variables: discrete and continuous.\n\n-   **Discrete Random Variables**: These have a countable number of outcomes. Examples include the number of heads in a coin toss, or the number of defective items in a batch.\n\n-   **Continuous Random Variables**: These can take on any value in a given range. Examples include the height of a person, or the time it takes to run a mile.\n\nIn machine learning, random variables are often used to represent the inputs and outputs of a model.\n\n## Probability Distributions\n\nA probability distribution describes how a random variable is distributed; it tells us which outcomes are likely, and which are not. In machine learning, understanding the underlying probability distribution of your data can be very helpful in selecting appropriate models.\n\nLoad necessary libraries\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(\"ggplot2\")\n```\n:::\n\n::: {.cell}\n\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

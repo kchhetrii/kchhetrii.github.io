@@ -2,6 +2,36 @@ project:
   type: website
   output-dir: docs
 
+<<<<<<< HEAD
+
+website:
+  favicon: media/dec.png
+  navbar:
+    title: Kamal Chhetri
+    logo: media/dec.png
+    logo-alt: "10-point star made up of 100 triangles"
+    right:
+      - icon: house
+        href: https://kchhetrii.github.io
+      - icon: pencil
+        href: https://kchhetrii.github.io/blog
+      - icon: github
+        href: https://github.com/kchhetrii
+      - icon: linkedin
+        href: https://www.linkedin.com/in/kamal-chhetri-555b04125/
+      - icon: envelope
+        href: mailto:kchhetri@vt.edu
+  twitter-card: true
+  site-url: https://kchhetrii.github.io
+  sidebar:
+    style: "floating"
+    search: true
+    contents: auto
+    
+format:
+  html:
+    page-layout: full
+=======
 website:
   title: "Machine learning blog"
   navbar:
@@ -13,6 +43,7 @@ website:
         href: https://twitter.com
 format:
   html:
+>>>>>>> 59d757e7d394f5f4f5d9f096b3d37f9fbb9321dd
     theme: sandstone
     mainfont: arial
     fontsize: 1.5rem
